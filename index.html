@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support Ticket Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Support Ticket Dashboard</h1>
+    <canvas id="ticketChart" width="400" height="200"></canvas>
+
+    <script>
+        // JavaScript function to count tickets by status
+        function countTicketsByStatus(tickets) {
+            const statusCounts = {
+                open: 0,
+                'in progress': 0,
+                closed: 0
+            };
+
+            tickets.forEach(ticket => {
+                if (statusCounts.hasOwnProperty(ticket.status)) {
+                    statusCounts[ticket.status]++;
+                }
+            });
+
+            return statusCounts;
+        }
+
+        // Example usage
+        const tickets = [
+            { id: 1, status: 'open' },
+            { id: 2, status: 'in progress' },
+            { id: 3, status: 'closed' },
+            { id: 4, status: 'open' },
+            { id: 5, status: 'closed' }
+        ];
+
+        const ticketCounts = countTicketsByStatus(tickets);
+
+        // Data for Chart.js
+        const data = {
+            labels: Object.keys(ticketCounts),
+            datasets: [{
+                label: 'Number of Tickets',
+                data: Object.values(ticketCounts),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        // Create the chart
+        new Chart(document.getElementById('ticketChart').getContext('2d'), {
+            type: 'bar',
+            data: data,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
